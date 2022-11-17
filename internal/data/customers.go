@@ -15,8 +15,12 @@ type CustomerModel struct {
 	DB *map[string]Customer
 }
 
-func (c CustomerModel) GetAll() map[string]Customer {
-	return *c.DB
+func (c CustomerModel) GetAll() []Customer {
+	var customers []Customer
+	for _, v := range *c.DB {
+		customers = append(customers, v)
+	}
+	return customers
 }
 
 func (c CustomerModel) Get(id string) *Customer {
