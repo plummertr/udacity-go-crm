@@ -2,12 +2,17 @@ package api
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/plummertr/udacity-go-crm/internal/apiutility"
 	"github.com/plummertr/udacity-go-crm/internal/data"
 )
+
+func (a *App) index(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/index.html")
+}
 
 func (a *App) getCustomers(w http.ResponseWriter, r *http.Request) {
 	customers := a.Models.Customers.GetAll()
@@ -32,7 +37,13 @@ func (a *App) getCustomer(w http.ResponseWriter, r *http.Request) {
 func (a *App) addCustomer(w http.ResponseWriter, r *http.Request) {
 	var input data.Customer
 
-	err := json.NewDecoder(r.Body).Decode(&input)
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		apiutility.WriteJson(w, apiutility.Wrap("error", "Unable to read request body"), http.StatusBadRequest)
+		return
+	}
+
+	err = json.Unmarshal(body, &input)
 	if err != nil {
 		apiutility.WriteJson(w, apiutility.Wrap("error", "invalid data, unable to parse json"), 422)
 		return

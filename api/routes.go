@@ -9,6 +9,8 @@ import (
 func (a *App) Routes() http.Handler {
 	r := httprouter.New()
 
+	r.HandlerFunc(http.MethodGet, "/", a.index)
+
 	r.HandlerFunc(http.MethodGet, "/customers", a.getCustomers)
 	r.HandlerFunc(http.MethodGet, "/customers/:id", a.getCustomer)
 	r.HandlerFunc(http.MethodPost, "/customers", a.addCustomer)

@@ -1,0 +1,63 @@
+<head>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #111;
+            color: #ddd;
+        }
+
+        .content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 40rem;
+            margin: auto;
+        }
+
+        .title {
+            font-size: 2rem;
+        }
+        
+        #routes {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        .route-row {
+            display: grid;
+            grid-template-columns: 8rem 1fr;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div class="title">Udacity-Go-CRM</div>
+        <div id="routes">
+
+        </div>
+    </div>
+</body>
+<script>
+    var routes = [
+        { name: "Get (All)", route: "/customers" },
+        { name: "Get", route: "/customers/:id" },
+        { name: "Create", route: "/customers" },
+        { name: "Update", route: "/customers/:id" },
+        { name: "Delete", route: "/customers/:id" },
+    ]
+
+    var htmlRoutes = routes.map(route => (
+        `<div class="route-row">
+            <div class="route-name">${route.name}</div>
+            <div class="route-route">${route.route}</div>
+        </div>`
+    )).join("")
+
+    document.querySelector("#routes").innerHTML = htmlRoutes;
+</script>
